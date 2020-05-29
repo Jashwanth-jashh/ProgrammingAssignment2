@@ -2,14 +2,35 @@
 ## functions do
 
 ## Write a short comment describing this function
+## A  matrix object which caches its inverse
 
 makeCacheMatrix <- function(x = matrix()) {
-
+  inv <- NULL
+  set <- function(y){
+    x <<-y
+    inv <<-NULL
+  }
+  get <- function()x
+  setinv <- function(i) inv <- i
+  getinv <- function() inv
+  list(set=set,get=get,setinv=setinv,getinv=getinv)
+  
 }
 
 
 ## Write a short comment describing this function
+## this function calculates inverse of a matrix if not calculated,if caluclated already
+## it returns value from its cache
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  ## Return a matrix that is the inverse of 'x'
+  inv <- x$getinv()
+  if(!is.null(inv)){
+    message("getting cached data")
+    return (inv)
+  }
+  data <-x$get
+  inv <- solve(data) %*% data
+  x$setinv(inv)
+  inv
 }
